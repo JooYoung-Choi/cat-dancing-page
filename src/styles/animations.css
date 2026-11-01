@@ -1,0 +1,116 @@
+/* --speed 값이 클수록 빠르게 (기준 박자 1.2s) */
+.dancing-cat { --beat: calc(1.2s / var(--speed, 1)); }
+
+.dancing-cat .cat-stage,
+.dancing-cat .cat-svg g,
+.dancing-cat .cat-shadow,
+.dancing-cat .note {
+  animation-duration: var(--beat);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-play-state: running;
+  transform-box: fill-box;
+  will-change: transform;
+}
+.dancing-cat.is-paused .cat-stage,
+.dancing-cat.is-paused .cat-svg g,
+.dancing-cat.is-paused .cat-shadow,
+.dancing-cat.is-paused .note {
+  animation-play-state: paused;
+}
+
+/* 전체: 점프 + 좌우 흔들기 */
+.cat-stage { animation-name: hop; transform-origin: 50% 100%; }
+@keyframes hop {
+  0%, 100% { transform: translateY(0) rotate(-4deg) scale(1, 1); }
+  25% { transform: translateY(-24px) rotate(0deg) scale(0.97, 1.05); }
+  50% { transform: translateY(0) rotate(4deg) scale(1.04, 0.96); }
+  75% { transform: translateY(-24px) rotate(0deg) scale(0.97, 1.05); }
+}
+
+/* 머리: 까딱까딱 */
+.cat-head { animation-name: head-bob; transform-origin: 50% 90%; }
+@keyframes head-bob {
+  0%, 100% { transform: rotate(-8deg) translateY(0); }
+  50% { transform: rotate(8deg) translateY(-4px); }
+}
+
+/* 팔: 번갈아 위아래 */
+.cat-arm-left { animation-name: arm-left; transform-origin: 50% 10%; }
+.cat-arm-right { animation-name: arm-right; transform-origin: 50% 10%; }
+@keyframes arm-left {
+  0%, 100% { transform: rotate(50deg); }
+  50% { transform: rotate(-35deg); }
+}
+@keyframes arm-right {
+  0%, 100% { transform: rotate(35deg); }
+  50% { transform: rotate(-50deg); }
+}
+
+/* 다리: 스텝 */
+.cat-leg-left { animation-name: step-left; transform-origin: 50% 0%; }
+.cat-leg-right { animation-name: step-right; transform-origin: 50% 0%; }
+@keyframes step-left { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(14deg) translateY(-6px); } }
+@keyframes step-right { 0%, 100% { transform: rotate(14deg) translateY(-6px); } 50% { transform: rotate(0); } }
+
+/* 꼬리: 살랑살랑 */
+.dancing-cat .cat-tail { animation-name: tail-wag; transform-origin: 0% 100%; animation-duration: calc(var(--beat) / 2); }
+@keyframes tail-wag {
+  0%, 100% { transform: rotate(-14deg); }
+  50% { transform: rotate(16deg); }
+}
+
+/* 눈: 깜빡 */
+.dancing-cat .cat-eyes { animation-name: blink; transform-origin: 50% 50%; animation-duration: calc(var(--beat) * 3); }
+@keyframes blink {
+  0%, 90%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.1); }
+}
+
+/* 그림자: 점프에 맞춰 크기 변화 */
+.cat-shadow { animation-name: shadow; transform-origin: 50% 50%; }
+@keyframes shadow {
+  0%, 50%, 100% { transform: scale(1); opacity: 1; }
+  25%, 75% { transform: scale(0.75); opacity: 0.6; }
+}
+
+/* 음표 */
+.dancing-cat .note {
+  position: absolute;
+  top: 10%;
+  font-size: clamp(1.4rem, 5vw, 2.2rem);
+  color: #6c5ce7;
+  opacity: 0;
+  pointer-events: none;
+  animation-name: float-note;
+  animation-duration: calc(var(--beat) * 2.5);
+  animation-timing-function: ease-out;
+}
+.dancing-cat .note-1 { left: 2%; }
+.dancing-cat .note-2 { right: 2%; animation-delay: calc(var(--beat) * 0.8); color: #e84393; }
+.dancing-cat .note-3 { left: 45%; animation-delay: calc(var(--beat) * 1.6); color: #00b894; }
+@keyframes float-note {
+  0% { transform: translateY(40px) rotate(0); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-60px) rotate(25deg); opacity: 0; }
+}
+
+/* 반응형 */
+@media (max-width: 767px) {
+  .layout { gap: 1rem; }
+  .btn-primary { width: 100%; max-width: 280px; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .dancing-cat { width: min(60vw, 400px); }
+}
+@media (min-width: 1024px) {
+  .dancing-cat { width: 420px; }
+}
+@media (hover: none) {
+  .btn:hover { transform: none; }
+}
+
+/* 시스템에서 동작 줄이기를 선택한 사용자 배려: 더 느리게 */
+@media (prefers-reduced-motion: reduce) {
+  .dancing-cat { --beat: calc(3.6s / var(--speed, 1)); }
+}

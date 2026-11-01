@@ -1,0 +1,66 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root { min-height: 100%; }
+
+body {
+  font-family: 'Pretendard', 'Noto Sans KR', system-ui, sans-serif;
+  background: linear-gradient(160deg, #ffd6e8 0%, #d6e4ff 50%, #e0ffd9 100%);
+  background-attachment: fixed;
+  color: #3a2a1d;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1.5rem 1rem;
+  overflow: hidden;
+}
+
+.title { font-size: clamp(1.6rem, 5vw, 2.6rem); text-align: center; }
+
+.dancing-cat {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: min(80vw, 360px);
+  padding: 0;
+  border-radius: 24px;
+}
+.dancing-cat:focus-visible { outline: 4px solid #6c5ce7; outline-offset: 6px; }
+
+.cat-stage { width: 100%; }
+.cat-svg { width: 100%; height: auto; display: block; overflow: visible; }
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+}
+.speed-group { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
+
+.btn {
+  font: inherit;
+  font-weight: 600;
+  border: 2px solid #6c5ce7;
+  background: #fff;
+  color: #6c5ce7;
+  border-radius: 999px;
+  padding: 0.7rem 1.4rem;
+  min-height: 44px; /* 터치 영역 */
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease, color 0.2s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: scale(0.96); }
+.btn:focus-visible { outline: 4px solid #fdcb6e; outline-offset: 2px; }
+.btn-primary { background: #6c5ce7; color: #fff; font-size: 1.1rem; padding: 0.8rem 2.2rem; }
+.btn-speed.active { background: #6c5ce7; color: #fff; }
+
+.hint { font-size: 0.85rem; color: #6b5a4b; text-align: center; }
